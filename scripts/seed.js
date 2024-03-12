@@ -168,9 +168,7 @@ async function main() {
   // await seedInvoices(client);
   // await seedRevenue(client);
   const i = await client.sql`
-  INSERT INTO customers (id, name, email, image_url)
-  VALUES ('1a', 'HDK', 'hdk@nextmail.com', '/customers/hdk.png')
-  ON CONFLICT (id) DO NOTHING;
+    delete from revenue where Month='Hdk';
     `;
   console.log(i);
 
