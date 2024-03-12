@@ -1,5 +1,6 @@
-export default function Page() {
-  console.log('1');
+import { fetchRevenue } from '../lib/data';
 
+export default async function Page() {
+  const result = await fetchRevenue();
   return <>dashboard</>;
 }
