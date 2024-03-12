@@ -163,10 +163,16 @@ async function seedRevenue(client) {
 async function main() {
   const client = await db.connect();
 
-  await seedUsers(client);
-  await seedCustomers(client);
-  await seedInvoices(client);
-  await seedRevenue(client);
+  // await seedUsers(client);
+  // await seedCustomers(client);
+  // await seedInvoices(client);
+  // await seedRevenue(client);
+  const i = await client.sql`
+  INSERT INTO customers (id, name, email, image_url)
+  VALUES ('1a', 'HDK', 'hdk@nextmail.com', '/customers/hdk.png')
+  ON CONFLICT (id) DO NOTHING;
+    `;
+  console.log(i);
 
   await client.end();
 }
