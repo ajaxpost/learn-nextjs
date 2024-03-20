@@ -9,6 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
+import { updateInvoice } from '@/app/lib/actions';
 
 export default function EditInvoiceForm({
   invoice,
@@ -18,7 +19,10 @@ export default function EditInvoiceForm({
   customers: CustomerField[];
 }) {
   return (
-    <form>
+    // .bind(null, invoice.id) 会返回一个新的函数
+    // 该函数的第一个参数是invoice.id
+    // 如果调用事件时, 会将事件对象作为第二个参数传入
+    <form action={updateInvoice.bind(null, invoice.id)}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">

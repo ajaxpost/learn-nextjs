@@ -1,6 +1,7 @@
-学习 Next.js ==> https://nextjs.org/learn/dashboard-app/error-handling
+学习 Next.js ==> https://nextjs.org/learn/dashboard-app/mutating-data
 
-进行到第13章了
+进行到第12章了
+可以直接看第13章了,12章主要说了一下 清除缓存和重定向
 
 - /app/layout.tsx --> 根布局
 - /app/page.tsx --> 路由 /
@@ -12,4 +13,4 @@
 - 当访问 /dashboard/customers 的时候将
 - /app/dashboard/customers/page.tsx 作为默认路由放到 /app/dashboard/layout.tsx 里面作为子路由
 - 如果添加 use client 后,组件就变成了真正的客户端组件了,和之前用普通React开发的组件效果相同
-- 默认是 use server,你在组件内部打印日志,也就是打印一次,只有组件刷新后才会打印,其他时候哪怕再次访问路由也不会打印
+- 默认是 use server,你在组件内部打印日志,也就是打印一次,只有组件刷新后才会打印,其他时候哪怕再次访问路由也不会打印,你可以想象是JavaWeb的形似,将获取的数据包装起来,返回JSP页面,当第一次进入页面的时候渲染数据,后续不会在请求新的数据了,除非再次刷新,这也叫做动态渲染

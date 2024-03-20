@@ -5,6 +5,7 @@ import { CreateInvoice } from '@/app/ui/invoices/buttons';
 import { lusitana } from '@/app/ui/fonts';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
+import { fetchInvoicesPages } from '@/app/lib/data';
 
 // 路由组件可以接受 路由参数
 export default async function Page({
@@ -17,7 +18,7 @@ export default async function Page({
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  console.log('invoices 页面加载了');
+  const totalPages = await fetchInvoicesPages(query);
 
   return (
     <div className="w-full">
@@ -32,7 +33,7 @@ export default async function Page({
         <Table query={query} currentPage={currentPage} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
-        {/* <Pagination totalPages={totalPages} /> */}
+        <Pagination totalPages={totalPages} />
       </div>
     </div>
   );

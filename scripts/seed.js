@@ -167,8 +167,13 @@ async function main() {
   // await seedCustomers(client);
   // await seedInvoices(client);
   // await seedRevenue(client);
+  // const i = await client.sql`
+  // INSERT INTO customers (id, name, email, image_url)
+  // VALUES ('13d07535-c59e-4157-a011-f8d2ef4e0cbd', 'HDK2', 'hdk2@nextmail.com', '/customers/hdk2.png')
+  // ON CONFLICT (id) DO NOTHING;
+  //   `;
   const i = await client.sql`
-    delete from revenue where Month='Hdk';
+  DELETE FROM customers WHERE name = 'HDK2';
     `;
   console.log(i);
 

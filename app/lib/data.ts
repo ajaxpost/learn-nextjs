@@ -54,21 +54,8 @@ export async function fetchLatestInvoices() {
 
 export async function fetchCardData() {
   /**
-   * 官方解释: 可以选择退出静态渲染并指示不缓存响应。
-   *
-   * 那么如果不加 noStore 的话默认是会缓存的结果的
-   * 也就是当我们第一次请求的时候,nextjs会将结果缓存起来,当我们下次再次发起请求
-   * nextjs会直接返回缓存的结果,而不会再次请求数据库
-   * 这样的话跟和静态渲染没啥区别,每次都是一样的数据,哪怕数据库数据发生了改变
-   *
-   * 所以我们需要加上 noStore 来禁止缓存,每次都重新请求数据库
-   * 变为动态渲染
-   *
-   * 这个东西如何是在本地开发环境下的话,是无所谓的,可以不加,因为每次都是重新启动服务的,每次重启都会刷新缓存
-   * 但是如果在生产环境下的话,要想实时获取数据,必须要加上这个
-   * 哪怕你清除浏览器缓存也不行,因为服务端和客户端是分开的,清除浏览器缓存只是清除了客户端的缓存
+   * 如果是动态渲染的话,默认这种访问数据库操作也是不会缓存的
    */
-  noStore();
   try {
     console.log('Card Fetch Data');
 
@@ -111,32 +98,32 @@ export async function fetchFilteredInvoices(
   currentPage: number,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  // try {
-  //   const invoices = await sql<InvoicesTable>`
-  //     SELECT
-  //       invoices.id,
-  //       invoices.amount,
-  //       invoices.date,
-  //       invoices.status,
-  //       customers.name,
-  //       customers.email,
-  //       customers.image_url
-  //     FROM invoices
-  //     JOIN customers ON invoices.customer_id = customers.id
-  //     WHERE
-  //       customers.name ILIKE ${`%${query}%`} OR
-  //       customers.email ILIKE ${`%${query}%`} OR
-  //       invoices.amount::text ILIKE ${`%${query}%`} OR
-  //       invoices.date::text ILIKE ${`%${query}%`} OR
-  //       invoices.status ILIKE ${`%${query}%`}
-  //     ORDER BY invoices.date DESC
-  //     LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-  //   `;
+  try {
+    const invoices = await sql<InvoicesTable>`
+      SELECT
+        invoices.id,
+        invoices.amount,
+        invoices.date,
+        invoices.status,
+        customers.name,
+        customers.email,
+        customers.image_url
+      FROM invoices
+      JOIN customers ON invoices.customer_id = customers.id
+      WHERE
+        customers.name ILIKE ${`%${query}%`} OR
+        customers.email ILIKE ${`%${query}%`} OR
+        invoices.amount::text ILIKE ${`%${query}%`} OR
+        invoices.date::text ILIKE ${`%${query}%`} OR
+        invoices.status ILIKE ${`%${query}%`}
+      ORDER BY invoices.date DESC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `;
 
-  //   return invoices.rows;
-  // } catch (error) {
-  //   console.error('Database Error:', error);
-  // }
+    return invoices.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+  }
 }
 
 export async function fetchInvoicesPages(query: string) {
@@ -187,15 +174,15 @@ export async function fetchInvoiceById(id: string) {
 
 export async function fetchCustomers() {
   try {
-    // const data = await sql<CustomerField>`
-    //   SELECT
-    //     id,
-    //     name
-    //   FROM customers
-    //   ORDER BY name ASC
-    // `;
-    // const customers = data.rows;
-    return [];
+    const data = await sql<CustomerField>`
+      SELECT
+        id,
+        name
+      FROM customers
+      ORDER BY name ASC
+    `;
+    const customers = data.rows;
+    return customers;
   } catch (err) {
     console.error('Database Error:', err);
   }
