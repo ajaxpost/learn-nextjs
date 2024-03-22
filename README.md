@@ -1,7 +1,6 @@
-学习 Next.js ==> https://nextjs.org/learn/dashboard-app/mutating-data
+学习 Next.js ==> https://nextjs.org/learn/dashboard-app/improving-accessibility
 
-进行到第12章了
-可以直接看第13章了,12章主要说了一下 清除缓存和重定向
+可以学习14章了
 
 - /app/layout.tsx --> 根布局
 - /app/page.tsx --> 路由 /

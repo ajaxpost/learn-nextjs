@@ -26,10 +26,16 @@ export async function createInvoice(formData: FormData) {
   // 转化为美分
   const amountInCents = amount * 100;
   const date = new Date().toISOString().split('T')[0];
-  await sql`
+  try {
+    await sql`
     INSERT INTO invoices (customer_id, amount, status, date)
     VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
   `;
+  } catch (error) {
+    return {
+      message: '创建失败',
+    };
+  }
   // 因为存在路由器缓存,
   // 路由器缓存是根据浏览器会话缓存的
   // 无论是静态渲染还是动态渲染都会缓存的,只是时间不同
@@ -47,18 +53,30 @@ export async function updateInvoice(id: string, formData: FormData) {
 
   const amountInCents = amount * 100;
 
-  await sql`
+  try {
+    await sql`
     UPDATE invoices
     SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
     WHERE id = ${id}
   `;
+  } catch (error) {
+    return {
+      message: '更新失败',
+    };
+  }
 
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
 }
 
 export async function deleteInvoice(id: string) {
-  await sql`DELETE FROM invoices WHERE id = ${id}`;
+  try {
+    await sql`DELETE FROM invoices WHERE id = ${id}`;
+  } catch (error) {
+    return {
+      message: '删除失败',
+    };
+  }
   /**
    * 由于此操作的路由就是当前路由
    * 所以你不需要重定向
@@ -67,7 +85,6 @@ export async function deleteInvoice(id: string) {
 
   /**
    * @TODO
-   *
    */
   revalidatePath('/dashboard/invoices');
 }
