@@ -1,6 +1,6 @@
 学习 Next.js ==> https://nextjs.org/learn/dashboard-app/improving-accessibility
 
-可以学习14章了
+16章全部学习完毕
 
 - /app/layout.tsx --> 根布局
 - /app/page.tsx --> 路由 /

@@ -1,5 +1,11 @@
 import { cookies } from 'next/headers';
 import Child from './child';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Customers',
+  description: 'Acme Dashboard is the best dashboard for all your needs.',
+};
 
 export default async function Page() {
   console.log('customer page 加载了');

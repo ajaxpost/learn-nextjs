@@ -6,6 +6,12 @@ import { lusitana } from '@/app/ui/fonts';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/lib/data';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Invoices',
+  description: 'Acme Dashboard is the best dashboard for all your needs.',
+};
 
 // 路由组件可以接受 路由参数
 export default async function Page({
